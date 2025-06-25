@@ -29,6 +29,11 @@ public class UsuarioService {
             throw new UsuarioException("Email já cadastrado");
         }
 
+        // Validar nome
+        if (usuarioDTO.getNome() == null || usuarioDTO.getNome().length() < 2) {
+            throw new UsuarioException("O nome do usuário deve conter ao menos 2 caracteres");
+        }
+
         // Somente CLIENTE exige confirmação de senha
         if (usuarioDTO.getTipo() == TipoUsuario.CLIENTE) {
             if (usuarioDTO.getSenha() == null || usuarioDTO.getConfirmacaoSenha() == null) {
@@ -36,6 +41,9 @@ public class UsuarioService {
             }
             if (!usuarioDTO.getSenha().equals(usuarioDTO.getConfirmacaoSenha())) {
                 throw new UsuarioException("As senhas não coincidem");
+            }
+            if (usuarioDTO.getSenha().length() < 8) {
+                throw new UsuarioException("A senha deve ter ao menos 8 caracteres");
             }
         }
 

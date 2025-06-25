@@ -18,18 +18,18 @@ public class Usuario {
 
     @Column(nullable = false)
     @NotBlank(message = "Nome é obrigatório")
-    @Size(min = 2, max = 100, message = "Nome deve ter entre 2 e 100 caracteres")
+    @Size(min = 2, max = 100, message = "O nome do usuário deve conter ao menos 2 caracteres")
     private String nome;
 
     @Column(nullable = false, unique = true)
     @NotBlank(message = "Email é obrigatório")
-    @Email(message = "Email inválido")
-    @Size(max = 255, message = "Email muito longo")
+    @Email(message = "O email deve ser válido")
+    @Size(max = 255, message = "O email deve ter no máximo 255 caracteres")
     private String email;
 
     @Column(nullable = false)
     @NotBlank(message = "Senha é obrigatória")
-    @Size(min = 64, max = 64, message = "Senha deve ter 64 caracteres (hash SHA-256)")
+    @Size(min = 8, max = 64, message = "A senha deve ter ao menos 8 caracteres")
     private String senha;
 
     @Enumerated(EnumType.STRING)
