@@ -105,42 +105,35 @@ public class UsuarioDTO {
     }
 
     public void setSenha(String senha) {
-        if (this.tipo == TipoUsuario.CLIENTE) {
-            if (senha == null || senha.trim().isEmpty()) {
-                logger.error("Senha obrigatória para cliente");
-                throw new UsuarioException("Senha é obrigatória para cliente");
+        if (senha != null) {
+            if (senha.trim().isEmpty()) {
+                logger.error("Senha inválida");
+                throw new UsuarioException("A senha não pode ser vazia");
             }
-
-            if (senha.length() < MIN_SENHA_LENGTH) {
+            if (senha.length() < 8) {
                 logger.error("Senha muito curta");
-                throw new UsuarioException("A senha deve ter pelo menos " + MIN_SENHA_LENGTH + " caracteres");
+                throw new UsuarioException("A senha deve ter ao menos 8 caracteres");
             }
         }
-
         this.senha = senha;
         logger.debug("Senha definida");
     }
-
-    public String getConfirmacaoSenha() {
-        return confirmacaoSenha;
-    }
-
+    
     public void setConfirmacaoSenha(String confirmacaoSenha) {
-        if (this.tipo == TipoUsuario.CLIENTE) {
-            if (confirmacaoSenha == null || confirmacaoSenha.trim().isEmpty()) {
-                logger.error("Confirmação obrigatória para cliente");
-                throw new UsuarioException("Confirmação de senha é obrigatória para cliente");
+        if (confirmacaoSenha != null) {
+            if (confirmacaoSenha.trim().isEmpty()) {
+                logger.error("Confirmação inválida");
+                throw new UsuarioException("A confirmação não pode ser vazia");
             }
-
-            if (confirmacaoSenha.length() < MIN_SENHA_LENGTH) {
-                logger.error("Confirmação muito curta");
-                throw new UsuarioException("Confirmação deve ter pelo menos " + MIN_SENHA_LENGTH + " caracteres");
+            if (this.senha != null && !this.senha.equals(confirmacaoSenha)) {
+                logger.error("Senhas não coincidem");
+                throw new UsuarioException("As senhas não coincidem");
             }
         }
-
         this.confirmacaoSenha = confirmacaoSenha;
         logger.debug("Confirmação definida");
     }
+    
 
     public TipoUsuario getTipo() {
         return tipo;
@@ -154,5 +147,9 @@ public class UsuarioDTO {
 
         this.tipo = tipo;
         logger.debug("Tipo definido: {}", tipo);
+    }
+
+    public String getConfirmacaoSenha() {
+        return confirmacaoSenha;
     }
 }

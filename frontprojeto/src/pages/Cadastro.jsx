@@ -60,24 +60,25 @@ const Cadastro = () => {
 
   const handleCadastro = async (e) => {
     e.preventDefault();
-    
+
     if (!validateForm()) return;
 
     try {
-      await api.post('/usuarios', { 
-        nome, 
-        email, 
-        senha, 
-        tipo: 'CLIENTE' 
+      await api.post('/usuarios', {
+        nome,
+        email,
+        senha,
+        tipo: 'CLIENTE'
       });
       navigate('/login');
     } catch (error) {
       console.error('Erro no cadastro:', error.response?.data || error.message);
-      const errorMessage = error.response?.data || 
-        error.response?.data?.message || 
+      const errorMessage = error.response?.data?.message ||
+        error.response?.data ||
         'Erro ao fazer cadastro. Por favor, tente novamente.';
       setError(errorMessage);
     }
+
   };
 
   return (

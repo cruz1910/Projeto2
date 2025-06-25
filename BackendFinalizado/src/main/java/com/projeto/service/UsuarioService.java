@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -35,15 +36,19 @@ public class UsuarioService {
         }
 
         // Somente CLIENTE exige confirmação de senha
-        if (usuarioDTO.getTipo() == TipoUsuario.CLIENTE) {
-            if (usuarioDTO.getSenha() == null || usuarioDTO.getConfirmacaoSenha() == null) {
-                throw new UsuarioException("Senha e confirmação são obrigatórias");
-            }
-            if (!usuarioDTO.getSenha().equals(usuarioDTO.getConfirmacaoSenha())) {
-                throw new UsuarioException("As senhas não coincidem");
+        // Validate password only if provided
+        if (usuarioDTO.getSenha() != null) {
+            if (usuarioDTO.getSenha().trim().isEmpty()) {
+                throw new UsuarioException("A senha não pode ser vazia");
             }
             if (usuarioDTO.getSenha().length() < 8) {
                 throw new UsuarioException("A senha deve ter ao menos 8 caracteres");
+            }
+            if (usuarioDTO.getConfirmacaoSenha() == null || usuarioDTO.getConfirmacaoSenha().trim().isEmpty()) {
+                throw new UsuarioException("A confirmação não pode ser vazia");
+            }
+            if (!usuarioDTO.getSenha().equals(usuarioDTO.getConfirmacaoSenha())) {
+                throw new UsuarioException("As senhas não coincidem");
             }
         }
 
@@ -52,6 +57,7 @@ public class UsuarioService {
         usuario.setEmail(usuarioDTO.getEmail());
         usuario.setTipo(usuarioDTO.getTipo());
 
+        // Set password only if provided
         if (usuarioDTO.getSenha() != null) {
             usuario.setSenha(HashUtil.gerarHashSHA256(usuarioDTO.getSenha()));
         }
@@ -71,16 +77,19 @@ public class UsuarioService {
 
         // Atualizar senha se fornecida
         if (usuarioDTO.getSenha() != null && !usuarioDTO.getSenha().isEmpty()) {
-            if (usuarioDTO.getTipo() == TipoUsuario.CLIENTE) {
-                if (usuarioDTO.getConfirmacaoSenha() == null || usuarioDTO.getConfirmacaoSenha().isEmpty()) {
-                    throw new UsuarioException("Confirmação de senha é obrigatória para alteração");
-                }
-                if (!usuarioDTO.getSenha().equals(usuarioDTO.getConfirmacaoSenha())) {
-                    throw new UsuarioException("As senhas não coincidem");
-                }
+            if (usuarioDTO.getSenha().length() < 8) {
+                throw new UsuarioException("A senha deve ter ao menos 8 caracteres");
             }
+            if (usuarioDTO.getConfirmacaoSenha() == null || usuarioDTO.getConfirmacaoSenha().trim().isEmpty()) {
+                throw new UsuarioException("Confirmação de senha é obrigatória");
+            }
+            if (!usuarioDTO.getSenha().equals(usuarioDTO.getConfirmacaoSenha())) {
+                throw new UsuarioException("As senhas não coincidem");
+            }
+        
             usuario.setSenha(HashUtil.gerarHashSHA256(usuarioDTO.getSenha()));
         }
+        
 
         Usuario updatedUsuario = usuarioRepository.save(usuario);
         return UsuarioMapper.INSTANCE.toUsuarioDTO(updatedUsuario);

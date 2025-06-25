@@ -117,8 +117,8 @@ const Register = () => {
             <label htmlFor="confirmacaoSenha">Confirmar Senha</label>
             <input
               type="password"
-              id="confirmacaoSenha" // O ID pode ser diferente do NAME, mas aqui mantivemos igual para clareza
-              name="confirmacaoSenha" // <<-- ESTE É O NOME CORRETO PARA BATER COM O ESTADO E O BACKEND
+              id="confirmacaoSenha" 
+              name="confirmacaoSenha" 
               value={formData.confirmacaoSenha}
               onChange={handleChange}
               required

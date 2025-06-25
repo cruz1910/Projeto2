@@ -11,7 +11,16 @@ const Funcionarios = () => {
   const [editId, setEditId] = useState(null);
   const [loading, setLoading] = useState(false);
 
-  // Buscar lista de funcionários
+  const [nomeError, setNomeError] = useState('');
+  const [emailError, setEmailError] = useState('');
+  const [senhaError, setSenhaError] = useState('');
+  const [confirmacaoError, setConfirmacaoError] = useState('');
+  const [error, setError] = useState('');
+
+  useEffect(() => {
+    listarFuncionarios();
+  }, []);
+
   const listarFuncionarios = async () => {
     try {
       setLoading(true);
@@ -25,67 +34,113 @@ const Funcionarios = () => {
     }
   };
 
-  useEffect(() => {
-    listarFuncionarios();
-  }, []);
+  const validateForm = () => {
+    let isValid = true;
 
-  // Submissão de formulário: cadastrar ou atualizar
+    if (!nome) {
+      setNomeError('Nome é obrigatório');
+      isValid = false;
+    } else if (nome.length < 2) {
+      setNomeError('Nome deve ter no mínimo 2 caracteres');
+      isValid = false;
+    } else {
+      setNomeError('');
+    }
+
+    if (!email) {
+      setEmailError('Email é obrigatório');
+      isValid = false;
+    } else {
+      setEmailError('');
+    }
+
+    if (!senha) {
+      setSenhaError('Senha é obrigatória');
+      isValid = false;
+    } else if (senha.length < 8) {
+      setSenhaError('A senha deve ter ao menos 8 caracteres');
+      isValid = false;
+    } else {
+      setSenhaError('');
+    }
+
+    if (!confirmacaoSenha) {
+      setConfirmacaoError('Confirmação de senha é obrigatória');
+      isValid = false;
+    } else if (senha !== confirmacaoSenha) {
+      setConfirmacaoError('As senhas não coincidem');
+      isValid = false;
+    } else {
+      setConfirmacaoError('');
+    }
+
+    return isValid;
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (!validateForm()) return;
+
     setLoading(true);
 
-    try {
-      const data = {
-        nome,
-        email,
-        senha: senha || null,
-        confirmacaoSenha: confirmacaoSenha || null,
-        tipo: 'FUNCIONARIO'
-      };
+    const data = {
+      nome,
+      email,
+      senha,
+      confirmacaoSenha,
+      tipo: 'FUNCIONARIO'
+    };
 
+    try {
       if (editId) {
-        // Atualizar funcionário existente
-        await api.put(`/usuarios/funcionarios/${editId}`, data);
-        setEditId(null);
+        await api.put(`/usuarios/${editId}`, data);
       } else {
-        // Cadastrar novo funcionário
         await api.post('/usuarios', data);
       }
 
-      // Limpar campos e recarregar lista
       setNome('');
       setEmail('');
       setSenha('');
       setConfirmacaoSenha('');
+      setEditId(null);
+      setNomeError('');
+      setEmailError('');
+      setSenhaError('');
+      setConfirmacaoError('');
+      setError('');
       listarFuncionarios();
-    } catch (error) {
-      console.error(error);
-      alert(error.response?.data?.message || 'Erro ao salvar funcionário');
+    } catch (err) {
+      const msg = err.response?.data?.message ||
+        err.response?.data ||
+        'Erro ao salvar funcionário';
+      setError(msg);
     } finally {
       setLoading(false);
     }
   };
 
-  // Preencher formulário para edição
-  const handleEdit = (func) => {
-    setEditId(func.id);
-    setNome(func.nome);
-    setEmail(func.email);
-    setSenha(''); // Limpa a senha ao editar
+  const handleEdit = (funcionario) => {
+    setEditId(funcionario.id);
+    setNome(funcionario.nome);
+    setEmail(funcionario.email);
+    setSenha('');
     setConfirmacaoSenha('');
+    setNomeError('');
+    setEmailError('');
+    setSenhaError('');
+    setConfirmacaoError('');
+    setError('');
   };
 
-  // Excluir funcionário
   const handleDelete = async (id) => {
     if (window.confirm('Deseja realmente excluir este funcionário?')) {
       setLoading(true);
       try {
         await api.delete(`/usuarios/funcionarios/${id}`);
-        // Atualiza a lista removendo o funcionário excluído
-        setFuncionarios(funcionarios.filter(func => func.id !== id));
-      } catch (error) {
-        console.error(error);
-        alert(error.response?.data?.message || 'Erro ao excluir funcionário');
+        setFuncionarios(funcionarios.filter(f => f.id !== id));
+      } catch (err) {
+        alert(err.response?.data?.message || 'Erro ao excluir funcionário');
       } finally {
         setLoading(false);
       }
@@ -96,35 +151,53 @@ const Funcionarios = () => {
     <div className="container">
       <h1>Gerenciar Funcionários</h1>
 
+      {error && <p className="error">{error}</p>}
+
       <form onSubmit={handleSubmit} className="form">
-        <input
-          type="text"
-          placeholder="Nome"
-          value={nome}
-          onChange={(e) => setNome(e.target.value)}
-          required
-        />
-        <input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        />
-        <input
-          type="password"
-          placeholder="Senha"
-          value={senha}
-          onChange={(e) => setSenha(e.target.value)}
-          required={!editId}
-        />
-        <input
-          type="password"
-          placeholder="Confirme a senha"
-          value={confirmacaoSenha}
-          onChange={(e) => setConfirmacaoSenha(e.target.value)}
-          required={!editId}
-        />
+        <div className="form-group">
+          <input
+            type="text"
+            placeholder="Nome"
+            value={nome}
+            onChange={(e) => setNome(e.target.value)}
+            required
+          />
+          {nomeError && <p className="error">{nomeError}</p>}
+        </div>
+
+        <div className="form-group">
+          <input
+            type="email"
+            placeholder="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
+          {emailError && <p className="error">{emailError}</p>}
+        </div>
+
+        <div className="form-group">
+          <input
+            type="password"
+            placeholder="Senha"
+            value={senha}
+            onChange={(e) => setSenha(e.target.value)}
+            required
+          />
+          {senhaError && <p className="error">{senhaError}</p>}
+        </div>
+
+        <div className="form-group">
+          <input
+            type="password"
+            placeholder="Confirme a senha"
+            value={confirmacaoSenha}
+            onChange={(e) => setConfirmacaoSenha(e.target.value)}
+            required
+          />
+          {confirmacaoError && <p className="error">{confirmacaoError}</p>}
+        </div>
+
         <button
           type="submit"
           disabled={loading}

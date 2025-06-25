@@ -1,6 +1,9 @@
 package com.projeto.exception;
 
-import jakarta.validation.ConstraintViolationException;
+
+
+import java.util.Map;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -9,14 +12,14 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler(ConstraintViolationException.class)
-    public ResponseEntity<?> handleConstraintViolationException(ConstraintViolationException ex) {
+    @ExceptionHandler(UsuarioException.class)
+    public ResponseEntity<Map<String, String>> handleUsuarioException(UsuarioException ex) {
+        // Retorna JSON com a chave "message" e o texto da mensagem do erro
         return new ResponseEntity<>(
-            ex.getConstraintViolations().stream()
-                .map(violation -> violation.getMessage())
-                .findFirst()
-                .orElse("Você possui algum campo inválido"),
+            Map.of("message", ex.getMessage()),
             HttpStatus.BAD_REQUEST
         );
     }
+   
+
 }
