@@ -198,18 +198,10 @@ const Funcionarios = () => {
           {confirmacaoError && <p className="error">{confirmacaoError}</p>}
         </div>
 
-        <button
+        <button className='buttonAtt'
           type="submit"
           disabled={loading}
-          style={{
-            backgroundColor: editId ? '#ff9800' : '#3f51b5',
-            color: 'white',
-            padding: '10px 20px',
-            border: 'none',
-            borderRadius: '4px',
-            cursor: 'pointer',
-            opacity: loading ? 0.5 : 1
-          }}
+        
         >
           {loading ? 'Carregando...' : editId ? 'Atualizar' : 'Cadastrar'}
         </button>
@@ -229,8 +221,8 @@ const Funcionarios = () => {
               <td>{f.nome}</td>
               <td>{f.email}</td>
               <td>
-                <button onClick={() => handleEdit(f)}>Editar</button>
-                <button onClick={() => handleDelete(f.id)}>Excluir</button>
+                <button className = "buttonEditar" onClick={() => handleEdit(f)}>Editar</button>
+                <button className = "buttonExcluir" onClick={() => handleDelete(f.id)}>Excluir</button>
               </td>
             </tr>
           ))}

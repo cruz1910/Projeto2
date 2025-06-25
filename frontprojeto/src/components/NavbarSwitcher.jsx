@@ -29,7 +29,7 @@ const NavbarSwitcher = () => {
               </>
             )}
 
-            {user.tipo === 'ADMIN' && <Link to="/funcionarios">Funcionários</Link>}
+            {user.tipo === 'ADMIN' && <Link className="navbar-link" to="/funcionarios">Funcionários</Link>}
 
             <span className="welcome-message">Bem-vindo, {user.nome || user.email}</span>
 

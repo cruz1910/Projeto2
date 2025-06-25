@@ -104,6 +104,39 @@
   cursor: pointer;
 }
 
+.submit-btn{
+  padding: 8px 12px;
+  background-color: #2563eb;
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 6px;
+}
+.submit-btn:hover{
+  opacity: 0.8;
+}
+
+.edit-btn{
+  padding: 8px 12px;
+  background-color: #2563eb;
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 6px;
+}
+.delete-btn{
+  padding: 8px 12px;
+  background-color: #2563eb;
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 6px;
+}
+.delete-btn:hover{
+    background-color: #dc2626;
+}
+
+
 .remove-image-btn:hover {
   background-color: #dc2626;
 }

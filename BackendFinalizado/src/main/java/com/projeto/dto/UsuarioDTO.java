@@ -10,7 +10,6 @@ import org.slf4j.LoggerFactory;
 
 public class UsuarioDTO {
     private static final Logger logger = LoggerFactory.getLogger(UsuarioDTO.class);
-    private static final int MIN_SENHA_LENGTH = 64;
     private static final int MAX_NOME_LENGTH = 100;
     private static final int MAX_EMAIL_LENGTH = 255;
 
@@ -118,7 +117,7 @@ public class UsuarioDTO {
         this.senha = senha;
         logger.debug("Senha definida");
     }
-    
+
     public void setConfirmacaoSenha(String confirmacaoSenha) {
         if (confirmacaoSenha != null) {
             if (confirmacaoSenha.trim().isEmpty()) {
@@ -133,7 +132,6 @@ public class UsuarioDTO {
         this.confirmacaoSenha = confirmacaoSenha;
         logger.debug("Confirmação definida");
     }
-    
 
     public TipoUsuario getTipo() {
         return tipo;

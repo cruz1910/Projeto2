@@ -74,12 +74,16 @@ const Dashboard = () => {
                     {veiculo.descricao && (
                       <p className="description">{veiculo.descricao}</p>
                     )}
-                    <button
-                      className="add-to-cart-btn"
-                      onClick={() => adicionarAoCarrinho(veiculo)}
-                    >
-                      Adicionar ao Carrinho
-                    </button>
+
+                    {/* Mostrar botão apenas se o usuário for CLIENTE */}
+                    {user.tipo === 'CLIENTE' && (
+                      <button
+                        className="add-to-cart-btn"
+                        onClick={() => adicionarAoCarrinho(veiculo)}
+                      >
+                        Adicionar ao Carrinho
+                      </button>
+                    )}
                   </div>
                 </div>
               ))}
