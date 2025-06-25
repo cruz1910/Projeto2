@@ -1,32 +1,81 @@
-.form {
+.veiculo-form {
   background-color: white;
-  padding: 20px;
-  margin-bottom: 20px;
+  padding: 15px;
+  margin: 20px auto;
   border-radius: 8px;
   box-shadow: 0 0 8px rgba(0,0,0,0.1);
+  width: 100%;
+  max-width: 600px;
+  box-sizing: border-box;
 }
 
-.form input {
-  margin-right: 10px;
-  margin-bottom: 10px;
+.field-pair {
+  display: flex;
+  gap: 15px;
+  width: 100%;
+}
+
+.field-item {
+  flex: 1;
+  width: 45%;
+}
+
+.field-item label {
+  display: block;
+  margin-bottom: 4px;
+  color: #333;
+}
+
+.field-item input,
+.field-item textarea {
+  width: 100%;
+  padding: 6px;
+  box-sizing: border-box;
+}
+
+.field-item textarea {
+  height: 120px;
   padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  resize: vertical;
 }
 
-.form button {
-  padding: 8px 12px;
+.veiculo-form input,
+.veiculo-form textarea {
+  margin-right: 5px;
+  margin-bottom: 8px;
+  padding: 6px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.veiculo-form textarea {
+  height: 120px;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  resize: vertical;
+  width: 570px;
+}
+
+.veiculo-form button {
+  padding: 8px 35px;
   background-color: #2563eb;
   color: white;
   border: none;
   cursor: pointer;
-}
-
-.form-group {
-  margin-bottom: 15px;
-}
-
-.form-group label {
+  margin: 15px auto;
   display: block;
-  margin-bottom: 5px;
+}
+
+.veiculo-form-group {
+  margin-bottom: 12px;
+}
+
+.veiculo-form-group label {
+  display: block;
+  margin-bottom: 4px;
   color: #333;
 }
 
@@ -91,6 +140,7 @@ td button {
   margin: 0 5px;
   padding: 5px 10px;
   cursor: pointer;
+
 }
 
 td button:hover {

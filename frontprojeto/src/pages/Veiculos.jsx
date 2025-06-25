@@ -130,68 +130,63 @@ const Veiculos = () => {
     <div className="container">
       <h1>Gerenciar Veículos</h1>
 
-      <form onSubmit={handleSubmit} className="form">
+      <form onSubmit={handleSubmit} className="veiculo-form">
         <div className="form-group">
-          <label>Marca *</label>
-          <input
-            type="text"
-            placeholder="Marca"
-            value={marca}
-            onChange={(e) => setMarca(e.target.value)}
-            required
-            minLength="2"
-            maxLength="50"
-          />
+          <div className="field-pair">
+            <div className="field-item">
+              <label>Marca *</label>
+              <input
+                type="text"
+                placeholder="Marca"
+                value={marca}
+                onChange={(e) => setMarca(e.target.value)}
+                required
+                minLength="2"
+                maxLength="50"
+              />
+            </div>
+            <div className="field-item">
+              <label>Modelo *</label>
+              <input
+                type="text"
+                placeholder="Modelo"
+                value={modelo}
+                onChange={(e) => setModelo(e.target.value)}
+                required
+                minLength="2"
+                maxLength="50"
+              />
+            </div>
+          </div>
         </div>
 
         <div className="form-group">
-          <label>Modelo *</label>
-          <input
-            type="text"
-            placeholder="Modelo"
-            value={modelo}
-            onChange={(e) => setModelo(e.target.value)}
-            required
-            minLength="2"
-            maxLength="50"
-          />
-        </div>
-
-        <div className="form-group">
-          <label>Cor *</label>
-          <input
-            type="text"
-            placeholder="Cor"
-            value={cor}
-            onChange={(e) => setCor(e.target.value)}
-            required
-            minLength="2"
-            maxLength="50"
-          />
-        </div>
-
-        <div className="form-group">
-          <label>Ano *</label>
-          <input
-            type="number"
-            placeholder="Ano"
-            value={ano}
-            onChange={(e) => setAno(e.target.value)}
-            required
-            min="1900"
-            max="2099"
-          />
-        </div>
-
-        <div className="form-group">
-          <label>Descrição</label>
-          <textarea
-            placeholder="Descrição"
-            value={descricao}
-            onChange={(e) => setDescricao(e.target.value)}
-            maxLength="1000"
-            rows="3"
-          ></textarea>
+          <div className="field-pair">
+            <div className="field-item">
+              <label>Cor *</label>
+              <input
+                type="text"
+                placeholder="Cor"
+                value={cor}
+                onChange={(e) => setCor(e.target.value)}
+                required
+                minLength="2"
+                maxLength="50"
+              />
+            </div>
+            <div className="field-item">
+              <label>Ano *</label>
+              <input
+                type="number"
+                placeholder="Ano"
+                value={ano}
+                onChange={(e) => setAno(e.target.value)}
+                required
+                min="1900"
+                max="2099"
+              />
+            </div>
+          </div>
         </div>
 
         <div className="form-group">
@@ -207,6 +202,20 @@ const Veiculos = () => {
           />
         </div>
 
+
+        <div className="form-group">
+          <div className="field-item">
+            <label>Descrição</label>
+            <textarea
+              placeholder="Descrição"
+              value={descricao}
+              onChange={(e) => setDescricao(e.target.value)}
+              maxLength="1000"
+              rows="3"
+            ></textarea>
+          </div>
+        </div>
+        
         <div className="form-group">
           <label>Imagem</label>
           <div className="image-upload-container">
