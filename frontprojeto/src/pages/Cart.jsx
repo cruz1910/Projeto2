@@ -31,16 +31,11 @@ const Cart = () => {
       return;
     }
 
-    const user = JSON.parse(localStorage.getItem('usuario'));
-
-    if (!user || !user.id) {
-      alert('Usuário não encontrado. Faça login novamente!');
-      return;
-    }
-
-    const itens = cartItems.map((v) => ({
-      veiculoId: v.id,
-      preco: v.preco,
+  
+    const user = JSON.parse(localStorage.getItem('user'));
+    const itens = cartItems.map((item) => ({
+      veiculoId: item.id,
+      preco: item.preco,
     }));
 
     const valorTotal = cartItems.reduce((acc, v) => acc + v.preco, 0);
@@ -54,14 +49,23 @@ const Cart = () => {
     };
 
     try {
-      await api.post('/pedidos', data);
-      alert('Pedido realizado com sucesso!');
+      await fetch('http://localhost:8080/api/pedidos', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      });
+  
+     
       localStorage.removeItem('cart');
       setCartItems([]);
       setTotal(0);
+  
+      window.dispatchEvent(new Event('pedidoFinalizado'));
+  
+      alert('Compra finalizada com sucesso!');
     } catch (error) {
       console.error('Erro ao finalizar pedido:', error);
-      alert('Erro ao finalizar pedido! Verifique se está logado ou se os veículos estão disponíveis.');
+      alert('Erro ao finalizar compra. Tente novamente.');
     }
   };
 
