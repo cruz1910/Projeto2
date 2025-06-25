@@ -2,19 +2,52 @@ version: '3.8'
 
 services:
   backend:
-    build: ./BackendFinalizado
+    build:
+      context: ./BackendFinalizado
+      dockerfile: Dockerfile
+    container_name: backend
     ports:
       - "8080:8080"
     networks:
       - app-network
+    depends_on:
+      - mysql
 
   frontend:
-    build: ./frontprojeto
+    build:
+      context: ./frontprojeto
+      dockerfile: Dockerfile
+    container_name: frontend
     ports:
       - "3000:3000"
+    networks:
+      - app-network
+
+  mysql:
+    image: mysql:8
+    container_name: mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: projeto
+      MYSQL_DATABASE: projeto
+      MYSQL_USER: projeto
+      MYSQL_PASSWORD: projeto
+    ports:
+      - "4306:3306"
+    volumes:
+      - projeto_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-pprojeto"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
     networks:
       - app-network
 
 networks:
   app-network:
     driver: bridge
+
+volumes:
+  projeto_data:
