@@ -4,7 +4,7 @@ import Login from './pages/Login.jsx';
 import Dashboard from './pages/Dashboard.jsx';
 import Veiculos from './pages/Veiculos.jsx';
 import Funcionarios from './pages/Funcionarios.jsx';
-import Pedidos from './pages/Pedidos.jsx';
+
 import Cart from './pages/Cart.jsx';
 import Register from './pages/Register.jsx';
 import NavbarSwitcher from './components/NavbarSwitcher.jsx';
@@ -71,14 +71,7 @@ function App() {
             </PrivateRouteAdmin>
           }
         />
-        <Route
-          path="/pedidos"
-          element={
-            <PrivateRoute>
-              <Pedidos />
-            </PrivateRoute>
-          }
-        />
+
         <Route path="/carrinho" element={
           <PrivateRoute>
             <Cart />

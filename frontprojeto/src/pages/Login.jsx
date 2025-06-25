@@ -8,10 +8,8 @@ const Login = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
-  const [confirmacaoSenha, setConfirmacaoSenha] = useState('');
   const [emailError, setEmailError] = useState('');
   const [senhaError, setSenhaError] = useState('');
-  const [confirmacaoError, setConfirmacaoError] = useState('');
   const [error, setError] = useState('');
 
   const validateForm = () => {
@@ -32,16 +30,6 @@ const Login = () => {
       isValid = false;
     } else {
       setSenhaError('');
-    }
-
-    if (!confirmacaoSenha) {
-      setConfirmacaoError('Confirmação de senha é obrigatória');
-      isValid = false;
-    } else if (senha !== confirmacaoSenha) {
-      setConfirmacaoError('As senhas não coincidem');
-      isValid = false;
-    } else {
-      setConfirmacaoError('');
     }
 
     return isValid;
@@ -88,16 +76,6 @@ const Login = () => {
             required
           />
           {senhaError && <p className="error">{senhaError}</p>}
-        </div>
-        <div className="form-group">
-          <input
-            type="password"
-            placeholder="Confirmar Senha"
-            value={confirmacaoSenha}
-            onChange={(e) => setConfirmacaoSenha(e.target.value)}
-            required
-          />
-          {confirmacaoError && <p className="error">{confirmacaoError}</p>}
         </div>
         <button type="submit" className="login-button">Entrar</button>
       </form>

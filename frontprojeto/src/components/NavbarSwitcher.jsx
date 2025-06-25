@@ -26,7 +26,6 @@ const NavbarSwitcher = () => {
             {['FUNCIONARIO', 'ADMIN'].includes(user.tipo) && (
               <>
                 <Link className="navbar-link" to="/veiculos">Veículos</Link>
-                <Link  className="navbar-link" to="/pedidos">Pedidos</Link>
               </>
             )}
 
